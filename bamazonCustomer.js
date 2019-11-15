@@ -69,8 +69,15 @@ function buyItem() {
         }
       ])
       .then(function(answer) {
-        // console.log("this is answer: "+answer.choice);
-        
+        console.log("this is answer: "+answer.choice);
+        console.log("this is amount: "+ answer.amount)
+        connection.query(`SELECT price FROM products WHERE item_id= ${answer.choice}`, function(err, priceData){
+          var realPrice = priceData[0].price;
+          var totalPrice = realPrice * answer.amount
+          console.log("Total Price: $" + totalPrice)
+          if (err) throw err;
+        });
+
         // get the information of the chosen item
         var chosenItem = [];
         for (var i = 0; i < results.length; i++) {
